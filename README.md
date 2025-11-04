@@ -10,4 +10,4 @@ Wilson, Wendi - Java & Swing Codes
 Jonel - Database, ERD, Stored Procedures, Views
 Timothy - Login/Register Swing UI
 
-<img width="435" height="242" alt="BB-Logo orig" src="https://github.com/user-attachments/assets/82173b30-c1bb-4ab9-a62e-b37ffd731e2b" />
+<img width="870" height="484" alt="BB-Logo orig" src="https://github.com/user-attachments/assets/82173b30-c1bb-4ab9-a62e-b37ffd731e2b" />
