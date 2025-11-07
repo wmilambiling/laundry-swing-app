@@ -1,12 +1,15 @@
 package team3.form;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import raven.alerts.MessageAlerts;
 import raven.popup.component.PopupCallbackAction;
 import raven.popup.component.PopupController;
 import team3.tabbed.TabbedForm;
 import team3.tabbed.WindowsTabbed;
 import raven.toast.Notifications;
+import team3.sql.ServiceCrud;
 
 public class ServicesForm extends TabbedForm {
 
@@ -38,9 +41,11 @@ public class ServicesForm extends TabbedForm {
         jLabel2 = new javax.swing.JLabel();
         txtServiceName = new javax.swing.JTextField();
         txtServicePrice = new javax.swing.JTextField();
-        btnAddService = new javax.swing.JButton();
+        btnDeleteService = new javax.swing.JButton();
         SPaneServices = new javax.swing.JScrollPane();
         tblServices = new javax.swing.JTable();
+        btnAddService1 = new javax.swing.JButton();
+        btnUpdateService = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -91,7 +96,7 @@ public class ServicesForm extends TabbedForm {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 826, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,24 +108,23 @@ public class ServicesForm extends TabbedForm {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Services Form");
 
-        txtServiceName.setText("txtServiceName");
         txtServiceName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtServiceNameActionPerformed(evt);
             }
         });
 
-        txtServicePrice.setText("txtServicePrice");
         txtServicePrice.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtServicePriceActionPerformed(evt);
             }
         });
 
-        btnAddService.setText("ADD");
-        btnAddService.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteService.setBackground(new java.awt.Color(255, 102, 102));
+        btnDeleteService.setText("DEL");
+        btnDeleteService.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddServiceActionPerformed(evt);
+                btnDeleteServiceActionPerformed(evt);
             }
         });
 
@@ -135,55 +139,91 @@ public class ServicesForm extends TabbedForm {
                 "ID", "SERVICE NAME", "PRICE"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.Long.class, java.lang.String.class, java.lang.Double.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, true, true
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        tblServices.setColumnSelectionAllowed(true);
         SPaneServices.setViewportView(tblServices);
+        tblServices.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+        btnAddService1.setBackground(new java.awt.Color(172, 223, 255));
+        btnAddService1.setText("ADD");
+        btnAddService1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddService1ActionPerformed(evt);
+            }
+        });
+
+        btnUpdateService.setBackground(new java.awt.Color(50, 115, 155));
+        btnUpdateService.setText("UPDATE");
+        btnUpdateService.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateServiceActionPerformed(evt);
+            }
+        });
 
         jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(txtServiceName, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(txtServicePrice, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(btnAddService, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnDeleteService, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(SPaneServices, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnAddService1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnUpdateService, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(SPaneServices)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(txtServiceName)
+                        .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(txtServicePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAddService))
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddService1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(7, 7, 7)
+                        .addComponent(btnUpdateService, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDeleteService, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(SPaneServices))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtServiceName)
+                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(txtServiceName, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtServicePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAddService1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnAddService, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtServicePrice, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(SPaneServices, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(btnDeleteService, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdateService, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(18, 18, 18)
+                .addComponent(SPaneServices, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -199,8 +239,8 @@ public class ServicesForm extends TabbedForm {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(7, 7, 7)
+                .addComponent(jLayeredPane1)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -213,25 +253,120 @@ public class ServicesForm extends TabbedForm {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtServiceNameActionPerformed
 
-    private void btnAddServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddServiceActionPerformed
-                // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddServiceActionPerformed
+    private void btnDeleteServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteServiceActionPerformed
+        int selectedRow = tblServices.getSelectedRow();
 
-    @Override
-    public boolean formClose() {
+        if (selectedRow != -1) { // Check if a row is actually selected
+            DefaultTableModel model = (DefaultTableModel) tblServices.getModel();
+
+            // Assuming the unique ID is in the first column (index 0)
+            Object idObject = model.getValueAt(selectedRow, 0); 
+            int recordId = Integer.parseInt(idObject.toString()); // Convert ID to appropriate type
+
+            try {
+                // Delete from database
+                ServiceCrud serviceCrud = new ServiceCrud();
+                serviceCrud.deleteService(recordId);
+
+                // Delete from JTable
+                model.removeRow(selectedRow);
+
+                JOptionPane.showMessageDialog(null, "Record deleted successfully!");
+                
+                serviceCrud.getAllServices(tblServices);
+
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Error deleting record: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row to delete.", "No Row Selected", JOptionPane.WARNING_MESSAGE);
+        } //FINISHED!
+    }//GEN-LAST:event_btnDeleteServiceActionPerformed
+
+    private void btnAddService1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddService1ActionPerformed
+        String txt1 = txtServiceName.getText();
+        String txt2 = txtServicePrice.getText();
+        ServiceCrud serviceCrud = new ServiceCrud();
+        serviceCrud.addService(txt1, txt2); // add to database
+        serviceCrud.getAllServices(tblServices); // refresh the table
+    }//GEN-LAST:event_btnAddService1ActionPerformed
+
+    private void btnUpdateServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateServiceActionPerformed
+        // FOR TROUBLESHOOTING
         
+                
+        int selectedRow = tblServices.getSelectedRow();
+        //String txt1 = tblServices.getText();
+        //String txt2 = tblServices.getText();
+        if (selectedRow != -1) { // Check if a row is actually selected
+            DefaultTableModel model = (DefaultTableModel) tblServices.getModel();
+
+            // Assuming the unique ID is in the first column (index 0)
+            Object idObject = model.getValueAt(selectedRow, 0); 
+            int serviceId = Integer.parseInt(idObject.toString()); // Convert ID to appropriate type
+
+            try {
+                // Delete from database
+                ServiceCrud serviceCrud = new ServiceCrud();
+                //serviceCrud.updateService(txt1, txt2, serviceId);
+
+                // Delete from JTable
+                model.removeRow(selectedRow);
+
+                //JOptionPane.showMessageDialog(null, "Record deleted successfully!");
+                Notifications.getInstance().show(Notifications.Type.INFO, "Record deleted successfully!");
+                
+                serviceCrud.getAllServices(tblServices);
+
+            } catch (Exception ex) {
+                String strMessage = "Oops! We encountered an issue while attempting to "
+                    + "save your data. Please try again later or contact support for"
+                    + "assistance. Apologies for any inconvenience caused.";
+                displayAlert(strMessage);
+                //JOptionPane.showMessageDialog(null, "Error deleting record: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+            
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a row to update.", "No Row Selected", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnUpdateServiceActionPerformed
+
+    void displayAlert(String strMessage){        
+		
+        MessageAlerts.getInstance().showMessage("Data Saving Failure", strMessage, 
+        MessageAlerts.MessageType.ERROR, 
+        MessageAlerts.OK_OPTION, 
+        new PopupCallbackAction() {
+            @Override
+            public void action(PopupController pc, int i) {
+                if (i == MessageAlerts.OK_OPTION) {
+                    System.out.println("Click ok");
+                }
+            }
+        });
+    }
+    
+    @Override
+    public boolean formClose() {        
         int opt = JOptionPane.showConfirmDialog(this, "Data not yet saved. Do you want to close ?", "Close", JOptionPane.YES_NO_OPTION);
         return opt == JOptionPane.YES_OPTION;
     }
 
     @Override
     public void formOpen() {
+        ServiceCrud serviceCrud = new ServiceCrud();
+        serviceCrud.getAllServices(tblServices);
         System.out.println("Services Form open");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane SPaneServices;
-    private javax.swing.JButton btnAddService;
+    private javax.swing.JButton btnAddService1;
+    private javax.swing.JButton btnDeleteService;
+    private javax.swing.JButton btnUpdateService;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;

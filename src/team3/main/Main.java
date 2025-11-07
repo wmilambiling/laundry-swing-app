@@ -107,7 +107,7 @@ public class Main extends javax.swing.JFrame {
         Font paytoneOne = null;
         try (InputStream is = Main.class.getResourceAsStream(
 	        "/team3/resources/PaytoneOne-Regular.ttf")) 
-	    {
+	{
             paytoneOne = Font.createFont(Font.TRUETYPE_FONT, is);            
             GraphicsEnvironment.getLocalGraphicsEnvironment()
 	            .registerFont(paytoneOne);
@@ -116,7 +116,7 @@ public class Main extends javax.swing.JFrame {
             System.out.println("Loaded Font Family Name: " + 
 	            paytoneOne.getFamily());
             
-        } catch(Exception e){
+        } catch(Exception e) {
             System.out.println("Cannot load Paytone One font.");
             e.printStackTrace();
             return; // Exit if font cannot be loaded
@@ -130,12 +130,11 @@ public class Main extends javax.swing.JFrame {
         
         // Set a large size (40f) for the Paytone One font object
         float titleSize = 18f; 
-        Font paytoneTitle = paytoneOne.deriveFont(Font.PLAIN, titleSize);
-        
+        Font paytoneTitle = paytoneOne.deriveFont(Font.PLAIN, titleSize);        
         
 
         // Use Paytone One for buttons (if you want large, prominent buttons)
-        UIManager.put("Button.font", paytoneTitle);        
+        UIManager.put("Button.font", robotoBody);        
         UIManager.put("Label.font", paytoneTitle);
         
         // 3. Set the default font for components you want to use Roboto

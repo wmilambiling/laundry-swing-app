@@ -7,7 +7,7 @@ import raven.drawer.component.menu.MenuAction;
 import raven.drawer.component.menu.MenuEvent;
 import raven.drawer.component.menu.MenuValidation;
 import raven.drawer.component.menu.SimpleMenuOption;
-import team3.form.TestForm;
+import team3.form.*;
 import team3.main.Main;
 import team3.tabbed.WindowsTabbed;
 
@@ -35,6 +35,8 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
             {"~HISTORY~"},
             {"Clients"},
             {"Sales"},
+            {"Employees"},
+            {"Services"},
             {"Logout"}};
 
         String icons[] = {
@@ -44,9 +46,11 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
             "receive.svg",
             "client.svg",
             "sales.svg",
+            "employee.svg",
+            "service.svg",
             "logout.svg"};
 
-        return new SimpleMenuOption()
+        return new SimpleMenuOption()                
                 .setMenus(menus)
                 .setIcons(icons)
                 .setBaseIconPath("team3/drawer/icon")
@@ -55,11 +59,44 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 .addMenuEvent(new MenuEvent() {
                     @Override
                     public void selected(MenuAction action, int index, int subIndex) {
-                        if (index == 0) {
-                            WindowsTabbed.getInstance().addTab("Form Added", new TestForm());
-                        } else if (index == 9) {
-                            Main.main.login();
+                           
+                        switch (index) {
+                            case 0:
+                                WindowsTabbed.getInstance().addTab("Dashboard", new TestForm());
+                                break;
+                            case 1:
+                                WindowsTabbed.getInstance().addTab("Not yet done", new TestForm());
+                                break;
+                            case 2:
+                                WindowsTabbed.getInstance().addTab("Not yet done", new TestForm());
+                                break;
+                            case 3:
+                                WindowsTabbed.getInstance().addTab("Not yet done", new TestForm());
+                                break;
+                            case 4:
+                                WindowsTabbed.getInstance().addTab("Customer", new CustomerForm());
+                                break;
+                            case 5:
+                                WindowsTabbed.getInstance().addTab("Not yet done", new TestForm());
+                                break;
+                            case 6:
+                                WindowsTabbed.getInstance().addTab("Employee", new EmployeeForm());
+                                break;
+                            case 7:
+                                WindowsTabbed.getInstance().addTab("Service", new ServicesForm());
+                                break;
+                            default:
+                                Main.main.login();
+                                break;
                         }
+                        
+                        
+//                        if (index == 0) {
+//                            WindowsTabbed.getInstance().addTab("Form Added", new TestForm());
+//                        } else if (index == 9) {
+//                            Main.main.login();
+//                        }
+                        
                         System.out.println("Menu selected " + index + " " + subIndex);
                     }
                 })
