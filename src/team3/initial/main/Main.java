@@ -22,10 +22,14 @@ public class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        
         Login login = new Login();
+        
         Register register = new Register();
+        
         slide.setAnimate(30);
         slide.init(login, register);
+        
         login.addEventRegister(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -34,6 +38,7 @@ public class Main extends javax.swing.JFrame {
                 register.register();
             }
         });
+        
         register.addEventBackLogin(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
