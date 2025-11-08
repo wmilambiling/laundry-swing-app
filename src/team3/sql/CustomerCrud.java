@@ -1,13 +1,17 @@
+/*
+@author: Shayne Fabelina
+*/
+
 package team3.sql;
 
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
 
-public class CustomerCrud_Shayne {
+public class CustomerCrud {
     private final Connection conn;
 
     // ✅ Constructor - handles connection safely
-    public CustomerCrud_Shayne() {
+    public CustomerCrud() {
         Connection tempConn = null;
         try {
             tempConn = new DbConnection().createConnection();
