@@ -16,7 +16,7 @@ public class CustomerCrud {
         Connection tempConn = null;
         try {
             tempConn = new DbConnection().createConnection();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         conn = tempConn;
@@ -35,6 +35,7 @@ public class CustomerCrud {
         }
         return id;
     }
+
     
     public DefaultComboBoxModel<String> getCustomersName() {
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();

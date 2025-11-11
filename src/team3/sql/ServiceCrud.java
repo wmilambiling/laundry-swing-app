@@ -4,6 +4,8 @@ package team3.sql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import team3.form.ServicesForm;
+import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,7 +20,7 @@ public class ServiceCrud extends DbConnection{
             PreparedStatement pstmt = conn.prepareStatement(sqlQuery);
             pstmt.setString(1, txt1);
             pstmt.setString(2, txt2);
-            
+
             int rowsAffected = pstmt.executeUpdate();
             
             messageResult = (rowsAffected == 1) ? "Success" 
