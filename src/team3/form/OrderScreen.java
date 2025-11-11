@@ -22,15 +22,24 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import team3.sql.CustomerCrud;
 import team3.sql.OrderCrud;
 import team3.sql.DbConnection;
+import team3.sql.EmployeeCrud;
 import team3.tabbed.WindowsTabbed;
-//import net.proteanit.sql.DbUtils;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
-public class OrderForm extends TabbedForm {
+public class OrderScreen extends TabbedForm {
     
-    public OrderForm() {
+    public OrderScreen() {
         initComponents();
+        CustomerCrud customerCrud = new CustomerCrud();
+        cbxCustomer.setModel(customerCrud.getCustomersName());
+        AutoCompleteDecorator.decorate(cbxCustomer);
+        
+        EmployeeCrud employeeCrud = new EmployeeCrud();
+        cbxEmployee.setModel(employeeCrud.getEmployeesName());
+        AutoCompleteDecorator.decorate(cbxEmployee);
     }
    
     private void hideWeightBtn() {
@@ -62,6 +71,7 @@ public class OrderForm extends TabbedForm {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        CustomerType = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -115,12 +125,10 @@ public class OrderForm extends TabbedForm {
         jLabel19 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        OrderDate = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton17 = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jButton18 = new javax.swing.JButton();
+        cbxCustomer = new javax.swing.JComboBox<>();
+        cbxEmployee = new javax.swing.JComboBox<>();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
 
@@ -528,9 +536,9 @@ public class OrderForm extends TabbedForm {
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Order Date:");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        OrderDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                OrderDateActionPerformed(evt);
             }
         });
 
@@ -538,28 +546,19 @@ public class OrderForm extends TabbedForm {
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
         jLabel21.setText("Order Processed by:");
 
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbxCustomer.setEditable(true);
+        cbxCustomer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbxCustomerActionPerformed(evt);
             }
         });
 
-        jButton17.setText("Load Data");
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
-            }
-        });
+        cbxEmployee.setEditable(true);
 
-        jButton18.setText("Load Data");
-        jButton18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton18ActionPerformed(evt);
-            }
-        });
-
+        CustomerType.add(jRadioButton1);
         jRadioButton1.setText("Walk-In");
 
+        CustomerType.add(jRadioButton2);
         jRadioButton2.setText("Pick-up & Delivery");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -572,11 +571,9 @@ public class OrderForm extends TabbedForm {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(26, 26, 26)
                         .addComponent(jLabel17)
-                        .addGap(18, 18, 18)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton17)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(jRadioButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jRadioButton2)
@@ -595,14 +592,11 @@ public class OrderForm extends TabbedForm {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel20)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(OrderDate, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(63, 63, 63)
                                 .addComponent(jLabel21)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton18)))
+                                .addComponent(cbxEmployee, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
@@ -611,8 +605,7 @@ public class OrderForm extends TabbedForm {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton17)
+                    .addComponent(cbxCustomer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -627,12 +620,10 @@ public class OrderForm extends TabbedForm {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel20)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(OrderDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel21)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton18)
-                .addGap(45, 45, 45))
+                    .addComponent(cbxEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(74, 74, 74))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -663,32 +654,14 @@ public class OrderForm extends TabbedForm {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void OrderDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OrderDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_OrderDateActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbxCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxCustomerActionPerformed
 //        OrderCrud orderc  
         
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_laundry?useSSL=false", "root", "");
-            Statement stm = (Statement) conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM customer");
-            while(rs.next()) {
-                String first_name = rs.getString("first_name");
-                jComboBox1.addItem(first_name);
-            }
-            conn.close();
-        } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error loading record! " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
-        }
-    }//GEN-LAST:event_jButton17ActionPerformed
+    }//GEN-LAST:event_cbxCustomerActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         if (jTextField2.getText().trim().isEmpty()) {
@@ -738,24 +711,24 @@ public class OrderForm extends TabbedForm {
 // -------- gets button values
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db_laundry?useSSL=false", "root", "");
-            Statement stm = (Statement) conn.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * FROM employee");
-            while(rs.next()) {
-                String first_name = rs.getString("first_name");
-                jComboBox2.addItem(first_name);
-            }
-            conn.close();
-        } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error loading record! " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
-        }
-    }                                               
+       
+    @Override
+    public void formOpen() {
+        EmployeeCrud employeeCrud = new EmployeeCrud();
+        //employeeCrud.getAllEmployees(tblEmployees);
+        CustomerCrud customerCrud = new CustomerCrud();
+        //customerCrud.getCustomerData(WIDTH);
+        
+        
+        
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup CustomerType;
+    private javax.swing.JTextField OrderDate;
+    private javax.swing.JComboBox<String> cbxCustomer;
+    private javax.swing.JComboBox<String> cbxEmployee;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -764,8 +737,6 @@ public class OrderForm extends TabbedForm {
     private javax.swing.JButton jButton14;
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
-    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
@@ -778,8 +749,6 @@ public class OrderForm extends TabbedForm {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -814,7 +783,6 @@ public class OrderForm extends TabbedForm {
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;

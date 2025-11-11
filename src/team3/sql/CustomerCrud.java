@@ -1,10 +1,11 @@
 /*
-@author: Shayne Fabelina
+* @author: Shayne Fabelina
 */
 
 package team3.sql;
 
 import java.sql.*;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
 
 public class CustomerCrud {
@@ -33,6 +34,26 @@ public class CustomerCrud {
             e.printStackTrace();
         }
         return id;
+    }
+    
+    public DefaultComboBoxModel<String> getCustomersName() {
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        String sql = "SELECT CONCAT(first_name, ' ', last_name) AS FullName FROM customer ORDER BY first_name, last_name";
+
+        try {
+            
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                model.addElement(rs.getString("FullName"));
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return model;
     }
 
     // ✅ Load customer data (all if limit == 0)

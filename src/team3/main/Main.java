@@ -135,7 +135,8 @@ public class Main extends javax.swing.JFrame {
 
         // Use Paytone One for buttons (if you want large, prominent buttons)
         UIManager.put("Button.font", robotoBody);        
-        UIManager.put("Label.font", paytoneTitle);
+        UIManager.put("Label.font", robotoBody);
+        //UIManager.put("Label.font", paytoneTitle);
         
         // 3. Set the default font for components you want to use Roboto
         UIManager.put("TextField.font", robotoBody);
