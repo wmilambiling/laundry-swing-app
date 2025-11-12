@@ -73,7 +73,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                                 WindowsTabbed.getInstance().addTab("Not yet done", new TestForm());
                                 break;
                             case 3:
-                                WindowsTabbed.getInstance().addTab("Not yet done", new OrderScreen());
+                                WindowsTabbed.getInstance().addTab("Order Screen", new OrderScreen());
                                 break;
 //                            case 4:
 //                                WindowsTabbed.getInstance().addTab("Customer", new CustomerUI());
